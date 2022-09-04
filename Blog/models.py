@@ -4,8 +4,8 @@ from django.urls import reverse
 # Create your models here.
 
 
-class Category(models.Model):
-    title = models.CharField(max_length=500)
+class CategoryModel(models.Model):
+    title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=300, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -20,28 +20,30 @@ class Category(models.Model):
         return reverse("category_detail", kwargs={"slug": self.slug})
 
 class Post(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=50, null=False, blank=False)
-    intro = models.CharField(max_length=500)
-    description = models.TextField()
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE,  related_name='categories',)
-    image = models.FileField(upload_to='static/imag/blog_post_image', null=True, blank=True)
     STATUS = (
-        ('PUB', 'PUBLISHED'),
+        ('PUBLISHED', 'PUBLISHED'),
         ('DRAF', 'DRAFT')
     )
-    status = models.CharField(choices=STATUS, max_length=50, default='PUBLISHED')
-    created_at = models.DateField(auto_now_add=True)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=400, null=False, blank=False)
+    intro = models.CharField(max_length=300)
+    categories = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='categories')
+    description = models.TextField()
+    image = models.FileField(upload_to='static/images/blog_post_image', null=True, blank=True)
+    status = models.CharField(choices=STATUS, max_length=100, default='PUBLISHED')
+    published_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     
-    class Meta:
-        ordering = ('-created_at',)
     
+    # class Meta:
+    #     ordering = ('-published_at',)
     def __str__(self):
-        return self.title
+        return self.title 
     
     def get_absolute_url(self):
         return reverse("post_detail", kwargs={"slug": self.slug})
+    
+    
     
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comment', on_delete=models.CASCADE) #specifying a comment belonging to a particular post; getting all of the comment belonging to a post

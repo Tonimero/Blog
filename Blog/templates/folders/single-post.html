@@ -3,6 +3,9 @@
 {% block post %}
 {% include 'folders/shared/nav.html' %}
 
+
+
+
   <main id="main">
   <section class="single-post-content">
       <div class="container">
@@ -11,7 +14,7 @@
 
             <!-- ======= Single Post Content ======= -->
             <div class="single-post">
-              <div class="post-meta"><a href="{% url 'category'  $}"><span class="date">{{post.categories.slug}}</span></a> <span class="mx-1">&bullet;</span> <span>{{post.created_at}}</span></div>
+              <div class="post-meta"><a href="#"><span class="date">{{post.categories.title}}</span></a> <span class="mx-1">&bullet;</span> <span>{{post.created_at}}</span></div>
               <h1 class="mb-5">{{post.title}}</h1>
               <p>{{post.intro}}</p>
 
@@ -99,13 +102,13 @@
               <div class="tab-content" id="pills-tabContent">
 
                 <!-- Popular -->
-                {% for post in category %}
+                {% for post in categories %}
                 <div class="tab-pane fade show active" id="pills-popular" role="tabpanel" aria-labelledby="pills-popular-tab">
                   <div class="post-entry-1 border-bottom">
                     <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
                     <h2 class="mb-2"><a href="#">{{post.title}}</a></h2>
                     <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
+                  </div> 
 
                   
                 </div> <!-- End Popular -->
@@ -204,12 +207,22 @@
 
             <div class="aside-block">
               <h3 class="aside-title">Categories</h3>
-              {% for post in category %}
               <ul class="aside-links list-unstyled">
-                <li><a href="category.html"><i class="bi bi-chevron-right"></i> {{post.categories.slug}}</a></li>
+                {% for category in categories %}
+                <li><a href="{% url 'category_detail' category.slug %}"><i class="bi bi-chevron-right"></i> {{category.title}}</a></li>
+                {% endfor %}
               </ul>
-              {%endfor%}
             </div><!-- End Categories -->
+                      <!-- <div class="col-sm-6">
+                          <ul class="list-unstyled mb-0">
+                              <li><a href="#!">JavaScript</a></li>
+                              <li><a href="#!">CSS</a></li>
+                              <li><a href="#!">Tutorials</a></li>
+                          </ul>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
 
             <div class="aside-block">
               <h3 class="aside-title">Tags</h3>

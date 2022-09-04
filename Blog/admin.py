@@ -12,5 +12,5 @@ class AdminCategory(admin.ModelAdmin):
 
 
 # admin.site.register(Post)
-admin.site.register(Category, AdminCategory)
+admin.site.register(CategoryModel, AdminCategory)
 admin.site.register(Post, AdminPost)

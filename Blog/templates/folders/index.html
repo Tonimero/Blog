@@ -69,7 +69,7 @@
           <div class="col-lg-4"> 
             {% for post in posts %}
             <div class="post-entry-1 lg">
-              <a href="{% url 'single-post' post.slug %}"><img src="{{ post.image.url }}" alt="" class="img-fluid"></a>
+              <a href="{% url 'post_details' post.slug%}"><img src="{{ post.image.url }}" alt="" class="img-fluid"></a>
               <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span class="mx-1">&bullet;</span> <span>{{post.created_at|timesince}}</span></div>
               <h2><a href="#">{{post.title}}</a></h2>
               <p class="mb-4 d-block">{{post.description}}</p>

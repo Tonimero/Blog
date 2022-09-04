@@ -1,15 +1,27 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import *
 from .forms import CommentForm
 from django.contrib import messages
+from telnetlib import STATUS
 
 # Create your views here.
-def blog_post(request, slug):
+
+def index(request):
+    posts = Post.objects.order_by('-published_at') 
+    context = {
+        'posts':posts,
+    }
+    return render(request, 'folders/index.html', context)
+
+
+def postDetailPage(request, slug):
     post = get_object_or_404(Post, slug=slug)
+    categories = CategoryModel.objects.all()
     form = CommentForm
     context = {
         'post':post,
-        'form': form
+        'form': form,
+        'categories':categories
     }
     
     #form validation
@@ -24,15 +36,11 @@ def blog_post(request, slug):
             return redirect('single-post', slug=slug)
         else:
             messages.success(request, ("Please fill in the required information"))
-            return redirect ('blog-post', slug=slug)
+            return redirect ('post_detail', slug=slug)
     return render(request, 'folders/single-post.html', context)
 
-def category_details(request, slug):
+def categoryListPages(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(categories=category) #filtering the post model and assigning the categories from models.py to the category variable created 
-    context = {
-        'category':category,
-        'posts':posts
-    }
+    posts = Post.objects.filter(categories=category)
     
-    return render(request, 'folders/category.html', context)
+    return render(request, 'folders/category.html', {'posts':posts, 'category':category})
