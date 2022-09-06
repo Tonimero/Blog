@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 # Create your models here.
 
 
@@ -16,8 +17,8 @@ class CategoryModel(models.Model):
     def __str__(self):
         return self.title
     
-    def get_absolute_url(self):
-        return reverse("category_detail", kwargs={"slug": self.slug})
+    # def get_absolute_url(self):
+    #     return reverse("category_detail", kwargs={"slug": self.slug})
 
 class Post(models.Model):
     STATUS = (
@@ -35,13 +36,14 @@ class Post(models.Model):
     updated_at = models.DateField(auto_now=True)
     
     
-    # class Meta:
-    #     ordering = ('-published_at',)
+    class Meta:
+        ordering = ('-published_at',)
+        
     def __str__(self):
         return self.title 
     
-    def get_absolute_url(self):
-        return reverse("post_detail", kwargs={"slug": self.slug})
+    # def get_absolute_url(self):
+    #     return reverse("post_detail", kwargs={"slug": self.slug})
     
     
     

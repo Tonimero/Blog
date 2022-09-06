@@ -6,22 +6,40 @@ from telnetlib import STATUS
 
 # Create your views here.
 
+# def base(request, slug):
+#     post = get_object_or_404(Post, slug=slug)
+#     posts = Post.objects.exclude(slug=slug)[:3]
+#     categorys = CategoryModel.objects.all()
+#     categories = CategoryModel.objects.all()
+#     context = {
+#         'posts':posts,
+#         'categorys':categorys,
+#         'post':post,
+#         'posts': posts,
+#         'categories':categories,
+#     }
+#     return render(request, 'folders/single-post.html', context)
+
 def index(request):
-    posts = Post.objects.order_by('-published_at') 
+    posts = Post.objects.all()
+    categorys = CategoryModel.objects.all()
     context = {
         'posts':posts,
+        'categorys':categorys,
     }
     return render(request, 'folders/index.html', context)
 
 
 def postDetailPage(request, slug):
     post = get_object_or_404(Post, slug=slug)
+    posts = Post.objects.exclude(slug=slug)[:3]
     categories = CategoryModel.objects.all()
-    form = CommentForm
+    form = CommentForm 
     context = {
         'post':post,
+        'posts': posts,
         'form': form,
-        'categories':categories
+        'categories':categories,
     }
     
     #form validation
@@ -33,14 +51,21 @@ def postDetailPage(request, slug):
             comment.save()
             #success message
             messages.success(request, ("Comment posted succesfully"))
-            return redirect('single-post', slug=slug)
+            return redirect('post_details', slug=slug)
         else:
             messages.success(request, ("Please fill in the required information"))
-            return redirect ('post_detail', slug=slug)
+            return redirect ('post_details', slug=slug)
     return render(request, 'folders/single-post.html', context)
 
 def categoryListPages(request, slug):
-    category = get_object_or_404(Category, slug=slug)
+    category = get_object_or_404(CategoryModel, slug=slug)
     posts = Post.objects.filter(categories=category)
+    categorys = CategoryModel.objects.all()
     
-    return render(request, 'folders/category.html', {'posts':posts, 'category':category})
+    context = {
+        'posts':posts, 
+        'category':category,
+        'categorys':categorys,
+    }
+    
+    return render(request, 'folders/category.html', context)   
