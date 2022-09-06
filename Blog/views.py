@@ -10,13 +10,10 @@ from telnetlib import STATUS
 #     post = get_object_or_404(Post, slug=slug)
 #     posts = Post.objects.exclude(slug=slug)[:3]
 #     categorys = CategoryModel.objects.all()
-#     categories = CategoryModel.objects.all()
 #     context = {
-#         'posts':posts,
-#         'categorys':categorys,
 #         'post':post,
 #         'posts': posts,
-#         'categories':categories,
+#         'categorys':categorys
 #     }
 #     return render(request, 'folders/single-post.html', context)
 
