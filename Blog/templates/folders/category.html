@@ -195,9 +195,14 @@
             <div class="aside-block">
               <h3 class="aside-title">Categories</h3>
               <ul class="aside-links list-unstyled">
-                {% for category in categorys %}
-                <li><a href="{% url 'category_detail' category.slug %}"><i class="bi bi-chevron-right"></i> {{category.title}}</a></li>
-                {% endfor %}
+                {% if cats %}
+                  {% for c in cats %}
+                      <li><a href="{% url 'category-detail' c.slug %}">{{ c.name }}</a></li>
+                  {% endfor %}
+
+              {% else %}
+                  <li> <strong >There are no category present.</strong></li>
+              {% endif %}
               </ul>
             </div><!-- End Categories -->
                       <!-- <div class="col-sm-6">

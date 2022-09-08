@@ -1,8 +1,10 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import *
-from .forms import CommentForm
+from .forms import *
 from django.contrib import messages
 from telnetlib import STATUS
+from django.utils.text import slugify
 
 # Create your views here.
 
@@ -66,3 +68,51 @@ def categoryListPages(request, slug):
     }
     
     return render(request, 'folders/category.html', context)   
+
+
+#Creating a "Create" form where users can create an article
+def CreatePost(request):
+    form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post =  form.save(commit=False)
+            post.slug = slugify(post.title)
+            post.save()
+            #success message
+            messages.success(request, ("Comment posted succesfully"))
+            return redirect ('homepage')
+    context = {
+            'form':form
+        }
+    return render(request, 'folders/create.html', context)
+
+#updating the Create form
+
+def  UpdatePost(request, slug):
+    post = Post.objects.get(slug=slug)
+    form = PostForm(instance=post) #form is filled with the particular article and not anither article
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect ('post_details', slug=post.slug)
+    context = {
+        'form':form,
+        'post':post     
+    }
+    return render(request, 'folders/update.html', context)
+
+
+#Delete the Create form
+def DeletePost(request, slug):
+    post = Post.objects.get(slug=slug)
+    form = PostForm(instance=post)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('homepage')
+    context = {
+        'form':form,
+        'post':post 
+    }
+    return render(request, 'folders/delete.html', context)

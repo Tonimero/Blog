@@ -13,6 +13,8 @@
 
             <!-- ======= Single Post Content ======= -->
             <div class="single-post">
+              <a href="{% url 'update-post' post.slug %}"><button class="btn btn-primary">Update</button></a>
+              <a href="{% url 'delete-post' post.slug %}"><button class="btn btn-danger">Delete</button></a>
               <div class="post-meta"><a href="#"><span class="date">{{post.categories.title}}</span></a> <span class="mx-1">&bullet;</span> <span>{{post.published_at}}</span></div>
               <h1 class="mb-5">{{post.title}}</h1>
               <p>{{post.intro}}</p>
@@ -176,9 +178,14 @@
             <div class="aside-block">
               <h3 class="aside-title">Categories</h3>
               <ul class="aside-links list-unstyled">
-                {% for category in categories %}
-                <li><a href="{% url 'category_detail' category.slug %}"><i class="bi bi-chevron-right"></i> {{category.title}}</a></li>
+                {% if cats %}
+                {% for c in categories %}
+                    <li><a href="{% url 'homepage' %}">{{ c.name }}</a></li>
                 {% endfor %}
+
+                {% else %}
+                    <li> <strong >There are no category present.</strong></li>
+                {% endif %}
               </ul>
             </div><!-- End Categories -->
                       <!-- <div class="col-sm-6">
@@ -191,20 +198,6 @@
                   </div>
               </div>
           </div>
-
-            <div class="aside-block">
-              <h3 class="aside-title">Tags</h3>
-              <ul class="aside-tags list-unstyled">
-                <li><a href="category.html">Business</a></li>
-                <li><a href="category.html">Culture</a></li>
-                <li><a href="category.html">Sport</a></li>
-                <li><a href="category.html">Food</a></li>
-                <li><a href="category.html">Politics</a></li>
-                <li><a href="category.html">Celebrity</a></li>
-                <li><a href="category.html">Startups</a></li>
-                <li><a href="category.html">Travel</a></li>
-              </ul>
-            </div><!-- End Tags -->
 
           </div>
         </div>
