@@ -1,7 +1,29 @@
 {% extends 'folders/base.html' %}
 {% load static %}
 {% block create %}
+<style>
+    #cke_id_description{
+        width: 100% !important;
+    }
 
+    @media only screen and (min-width: 991.11px){
+        #cke_id_description{
+        width: 117% !important;
+        }
+    }
+
+    @media only screen and (min-width: 1198.89px){
+        #cke_id_description{
+        width: 139.5% !important;
+        }
+    }
+
+    @media only screen and (min-width: 1399.50px){
+        #cke_id_description{
+        width: 162% !important;
+        }
+    }
+</style>
     
     <!-- ======= Comments ======= -->
     <main id="main">
@@ -23,6 +45,7 @@
                                         {% endif %}
                                         {% csrf_token %}
                                         {{form.as_p}}
+                                        {{form.media}}
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary"> Post comment</button>
                                         </div>

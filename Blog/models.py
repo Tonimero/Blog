@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -29,7 +30,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=400, null=False, blank=False)
     intro = models.CharField(max_length=300)
     categories = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='categories')
-    description = models.TextField()
+    description = RichTextField()
     image = models.FileField(upload_to='static/images/blog_post_image', null=True, blank=True)
     status = models.CharField(choices=STATUS, max_length=100, default='PUBLISHED')
     published_at = models.DateField(auto_now_add=True)

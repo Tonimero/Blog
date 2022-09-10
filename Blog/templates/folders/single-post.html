@@ -23,7 +23,7 @@
                 <img src="{{post.image.url}}" alt="" class="img-fluid" width="90%">
                 <figcaption>{{post.intro}} </figcaption>
               </figure>
-              <p>{{post.description}}.</p>
+              <p>{{post.description|safe}}.</p>
               </div><!-- End Single Post Content -->
 
             <!-- ======= Comments ======= -->

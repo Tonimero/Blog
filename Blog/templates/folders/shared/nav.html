@@ -14,9 +14,11 @@
             <!-- <li><a href="#">Single Post</a></li> -->
             <li class="dropdown"><a href="#"><span>Categories</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                 <ul>
-                <li><a href="#">Search Result</a></li>
-                <li><a href="#">Drop Down 1</a></li>
+                    {% for x in categorys %}
+                <li><a href="{% url 'category-detail' categories.slug %}">{{x.title}}</a></li>
+                    {%endfor%}
                 <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    
                     <ul>
                     <li><a href="#">Deep Drop Down 1</a></li>
                     </ul>

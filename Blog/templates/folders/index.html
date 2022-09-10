@@ -74,7 +74,7 @@
               <img src="{{ post.image.url }}" alt="" class="img-fluid">
               <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span class="mx-1">&bullet;</span> <span>{{post.created_at|timesince}}</span></div>
               <h2>{{post.title}}</h2>
-              <p class="mb-4 d-block">{{post.description|truncatechars:180}}</p>
+              <p class="mb-4 d-block">{{post.description|safe|truncatechars:180}}</p>
 
               <div class="d-flex align-items-center author">
                 <div class="photo"><img src="{% static 'img/person-1.jpg' %}" alt="" class="img-fluid"></div>
