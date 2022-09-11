@@ -1,238 +1,101 @@
 {% extends 'folders/base.html' %}
 {% load static %}
-{% block category %}
+{% block content %}
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-
-      <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>Flux</h1>
-      </a>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="index.html">Blog</a></li>
-          <li><a href="single-post.html">Single Post</a></li>
-          <li class="dropdown"><a href="category.html"><span>Categories</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-              <li><a href="search-result.html">Search Result</a></li>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-            </ul>
-          </li>
-
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav><!-- .navbar -->
-
-      <div class="position-relative">
-        <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
-        <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
-        <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
-
-        <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-
-        <!-- ======= Search Form ======= -->
-        <div class="search-form-wrap js-search-form-wrap">
-          <form action="search-result.html" class="search-form">
-            <span class="icon bi-search"></span>
-            <input type="text" placeholder="Search" class="form-control">
-            <button class="btn js-search-close"><span class="bi-x"></span></button>
-          </form>
-        </div><!-- End Search Form -->
-
-      </div>
-
-    </div>
-
-  </header><!-- End Header -->
-
-  <main id="main">
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-9" data-aos="fade-up">
-            <h3 class="category-title">Category: {{category.title}}s</h3>
-            {% for post in posts %}
-            <div class="d-md-flex post-entry-2 half">
-              <a href="single-post.html" class="me-4 thumbnail">
-                <img src="{%static '/img/post-landscape-6.jpg' %}" alt="" class="img-fluid">
-              </a>
-              <div>
-                <!-- <div class="post-meta"><span class="date">{{post.t}}</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div> -->
-                <h3><a href="single-post.html">{{post.title}}</a></h3>
-                <p>{{post.description}}</p>
-                <div class="d-flex align-items-center author">
-                  <div class="photo"><img src="{%static 'img/person-2.jpg' %}" alt="" class="img-fluid"></div>
-                  <div class="name">
-                    <h3 class="m-0 p-0">Wade Warren</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {%endfor%}
-            <div class="text-start py-4">
-              <div class="custom-pagination">
-                <a href="#" class="prev">Prevous</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#" class="next">Next</a>
-              </div>
-            </div>
-          </div>
-          
-
-          <div class="col-md-3">
-            <!-- ======= Sidebar ======= -->
-            <div class="aside-block">
-
-              <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-popular-tab" data-bs-toggle="pill" data-bs-target="#pills-popular" type="button" role="tab" aria-controls="pills-popular" aria-selected="true">Recent Posts</button>
-                </li>
-                <!-- <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false">Trending</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-latest-tab" data-bs-toggle="pill" data-bs-target="#pills-latest" type="button" role="tab" aria-controls="pills-latest" aria-selected="false">Latest</button>
-                </li> -->
-              </ul>
-
-              <div class="tab-content" id="pills-tabContent">
-
-                <!-- Popular -->
-                {% for post in posts %}
-            <div class="post-entry-1 lg">
-              <a href="{% url 'post_details' post.slug %}">
-              <img src="{{ post.image.url }}" alt="" class="img-fluid">
-              <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span class="mx-1">&bullet;</span> <span>{{post.created_at|timesince}}</span></div>
-              <h4>{{post.title}}</h4>
-              <p class="mb-4 d-block">{{post.description|truncatechars:100}}</p>
-
-              <div class="d-flex align-items-center author">
-                <div class="photo"><img src="{% static 'img/person-1.jpg' %}" alt="" class="img-fluid"></div>
-                <div class="name">
-                  <h3 class="m-0 p-0">Cameron Williamson</h3> 
-                </div>
-              </div>
-              </a>
-            </div>
-            {% endfor %}
-
-                <!-- Trending -->
-                <!-- <div class="tab-pane fade" id="pills-trending" role="tabpanel" aria-labelledby="pills-trending-tab">
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">Life Insurance And Pregnancy: A Working Mom’s Guide</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Business</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-                </div>  -->
-                <!-- End Trending -->
-
-                
-
-              </div>
-            </div>
-
-            <div class="aside-block">
-              <h3 class="aside-title">Video</h3>
-              <div class="video-post">
-                <a href="https://www.youtube.com/watch?v=AiFfDjmd0jU" class="glightbox link-video">
-                  <span class="bi-play-fill"></span>
-                  <img src="assets/img/post-landscape-5.jpg" alt="" class="img-fluid">
-                </a>
-              </div>
-            </div><!-- End Video -->
-
-            <div class="aside-block">
-              <h3 class="aside-title">Categories</h3>
-              <ul class="aside-links list-unstyled">
-                {% if cats %}
-                  {% for c in cats %}
-                      <li><a href="{% url 'category-detail' c.slug %}">{{ c.name }}</a></li>
-                  {% endfor %}
-
-              {% else %}
-                  <li> <strong >There are no category present.</strong></li>
-              {% endif %}
-              </ul>
-            </div><!-- End Categories -->
-                      <!-- <div class="col-sm-6">
-                          <ul class="list-unstyled mb-0">
-                              <li><a href="#!">JavaScript</a></li>
-                              <li><a href="#!">CSS</a></li>
-                              <li><a href="#!">Tutorials</a></li>
-                          </ul>
-                      </div> -->
-                  </div>
-              </div>
-          </div>
-
-            <div class="aside-block">
-              <h3 class="aside-title">Tags</h3>
-              <ul class="aside-tags list-unstyled">
-                <li><a href="category.html">Business</a></li>
-                <li><a href="category.html">Culture</a></li>
-                <li><a href="category.html">Sport</a></li>
-                <li><a href="category.html">Food</a></li>
-                <li><a href="category.html">Politics</a></li>
-                <li><a href="category.html">Celebrity</a></li>
-                <li><a href="category.html">Startups</a></li>
-                <li><a href="category.html">Travel</a></li>
-              </ul>
-            </div><!-- End Tags -->
-
-          </div>
+<div class="col-lg-6" data-aos="fade-up">
+  <h3 class="category-title">Category: {{category.title}}s</h3>
+  {% for post in posts %}
+  <div class="d-md-flex post-entry-2 half">
+    <a href="{% url 'post_details' post.slug %}" class="me-4 thumbnail">
+      <img src="{{post.image.url}}" height="200" width="200" alt="" class="img-fluid">
+    </a>
+    <div>
+      <!-- <div class="post-meta"><span class="date">{{post.t}}</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div> -->
+      <h3><a href="{% url 'post_details' post.slug %}">{{post.title}}</a></h3>
+      <p>{{post.description|truncatechars:200}}</p>
+      <div class="d-flex align-items-center author">
+        <div class="photo"><img src="{% static 'img/person-2.jpg' %}" alt="" class="img-fluid"></div>
+        <div class="name">
+          <h3 class="m-0 p-0">Wade Warren</h3>
         </div>
       </div>
-    </section>
-  </main><!-- End #main -->
-  {% endblock %}
+    </div>
+  </div>
+
+  {% empty %}
+  <p class="text-center">No Posts Yet</p>
+  
+  {%endfor%}
+  <div class="text-start py-4">
+    <div class="custom-pagination">
+      <a href="#" class="prev">Prevous</a>
+      <a href="#" class="active">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#" class="next">Next</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-lg-4">
+  <!-- ======= Sidebar ======= -->
+  <div class="aside-block">
+
+    <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-popular-tab" data-bs-toggle="pill"
+          data-bs-target="#pills-popular" type="button" role="tab" aria-controls="pills-popular"
+          aria-selected="true">Recent Posts</button>
+      </li>
+      <!-- <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false">Trending</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-latest-tab" data-bs-toggle="pill" data-bs-target="#pills-latest" type="button" role="tab" aria-controls="pills-latest" aria-selected="false">Latest</button>
+        </li> -->
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+
+      <!-- Popular -->
+      {% for post in posts %}
+      <div class="post-entry-1 lg">
+        <a href="{% url 'post_details' post.slug %}">
+          <img src="{{ post.image.url }}" width="300" alt="" class="img-fluid">
+          <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span
+              class="mx-1">&bullet;</span> <span>{{post.created_at|timesince}}</span></div>
+          <h4>{{post.title|truncatechars:100}}</h4>
+          <p class="mb-4 d-block">{{post.description|truncatechars:100}}</p>
+
+          <div class="d-flex align-items-center author">
+            <div class="photo"><img src="{% static 'img/person-1.jpg' %}" alt="" class="img-fluid"></div>
+            <div class="name">
+              <h3 class="m-0 p-0">Cameron Williamson</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% empty %}
+      <h3 class="text-center">No Posts Yet</h3>
+      {% endfor %}
+
+
+
+    </div>
+  </div>
+
+  <div class="aside-block">
+    <h3 class="aside-title">Video</h3>
+    <div class="video-post">
+      <a href="https://www.youtube.com/watch?v=AiFfDjmd0jU" class="glightbox link-video">
+        <span class="bi-play-fill"></span>
+        <img src="assets/img/post-landscape-5.jpg" alt="" class="img-fluid">
+      </a>
+    </div>
+  </div><!-- End Video -->
+
+</div>
+{% endblock %}

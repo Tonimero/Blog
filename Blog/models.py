@@ -17,8 +17,8 @@ class CategoryModel(models.Model):
     def __str__(self):
         return self.title
     
-    # def get_absolute_url(self):
-    #     return reverse("category_detail", kwargs={"slug": self.slug})
+    def get_absolute_url(self):
+        return reverse("category_detail", kwargs={"slug": self.slug})
 
 class Post(models.Model):
     STATUS = (
@@ -42,8 +42,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title 
     
-    # def get_absolute_url(self):
-    #     return reverse("post_detail", kwargs={"slug": self.slug})
+    def get_absolute_url(self):
+        return reverse("post_detail", kwargs={"slug": self.slug})
     
     
     

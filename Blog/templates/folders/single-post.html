@@ -1,207 +1,138 @@
 {% extends 'folders/base.html' %}
 {% load static %}
-{% block post %}
+{% block content %}
 
+<div class="col-lg-8 post-content">
 
+  <!-- ======= Single Post Content ======= -->
+  <div class="single-post">
+    <a href="{% url 'update-post' post.slug %}"><button class="btn btn-primary">Update</button></a>
+    <a href="{% url 'delete-post' post.slug %}"><button class="btn btn-danger">Delete</button></a>
+    <div class="post-meta"><a href="#"><span class="date">{{post.categories.title}}</span></a> <span
+        class="mx-1">&bullet;</span> <span>{{post.published_at}}</span></div>
+    <h1 class="mb-5">{{post.title}}</h1>
+    <p>{{post.intro}}</p>
 
+    <figure class="my-4">
+      <img src="{{post.image.url}}" alt="" class="img-fluid" width="90%">
+      <figcaption>{{post.intro}} </figcaption>
+    </figure>
+    <p>{{post.description}}.</p>
+  </div><!-- End Single Post Content -->
 
-  <main id="main">
-  <section class="single-post-content">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-9 post-content" >
+  <!-- ======= Comments ======= -->
+  <div class="row justify-content-center mt-5">
 
-            <!-- ======= Single Post Content ======= -->
-            <div class="single-post">
-              <a href="{% url 'update-post' post.slug %}"><button class="btn btn-primary">Update</button></a>
-              <a href="{% url 'delete-post' post.slug %}"><button class="btn btn-danger">Delete</button></a>
-              <div class="post-meta"><a href="#"><span class="date">{{post.categories.title}}</span></a> <span class="mx-1">&bullet;</span> <span>{{post.published_at}}</span></div>
-              <h1 class="mb-5">{{post.title}}</h1>
-              <p>{{post.intro}}</p>
-
-              <figure class="my-4">
-                <img src="{{post.image.url}}" alt="" class="img-fluid" width="90%">
-                <figcaption>{{post.intro}} </figcaption>
-              </figure>
-              <p>{{post.description}}.</p>
-              </div><!-- End Single Post Content -->
-
-            <!-- ======= Comments ======= -->
-            <div class="row justify-content-center mt-5">
-
-              <div class="col-lg-12">
-                <h5 class="comment-title">Leave a Comment</h5>
-                <div class="row">
-                  <form method="Post" class="form-control">
-                    {% if messages %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                      {% for message in messages %}
-                      <strong {% if message.tags %} class="{{ message.tags }}"{% endif %} class="message">{{ message }}</strong>                       {% endfor %}
-                    </div>
-                    {% endif %}
-                    {% csrf_token %}
-                    <!-- {{form.as_p}} -->
-                    <div class="mb-3">
-                      <div class="mb-3">
-                      <label for="name" class="form-label">Name</label>
-                      <input type="text" class="form-control" name="name">
-                    </div>
-                      <label for="exampleInputEmail1" class="form-label">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-                    </div>
-                    
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Body</label>
-                      <textarea name="body" class="form-control"></textarea>
-                    </div>
-                  <div class="col-12">
-                    <button type="submit" class="btn btn-primary"> Post comment</button>
-                  </div>
-                </form>
-                <div class="container" style="margin-top:20px; padding: 10px 10px;">
-                  <div class="row">
-                  {% for comment in post.comment.all %}  <!-- post.comment is coming from the foreign key. name = comment and the model item is post.  -->
-                  <div class="card" style="margin-top:20px; padding: 10px 10px;">
-                    <div class="card-header">
-                      <strong>{{comment.name}}</strong>
-                    </div>
-                    <div class="card-body">
-                      <blockquote class="blockquote mb-0">
-                        <p>{{comment.body}}</p>
-                        <footer class="blockquote-footer">{{comment.created_at}} </footer>
-                        <!-- <cite title="Source Title">Source Title</cite> -->
-                      </blockquote>
-                    </div>
-                  </div>
-                  {%endfor%}
-                  </div>
-                  </div>
-              </div>
-              </div>
-              <br>
-            </div>    
-              <!-- End Comments Form -->
+    <div class="col-lg-12">
+      <h5 class="comment-title">Leave a Comment</h5>
+      <div class="row">
+        <form method="Post" class="form-control">
+          {% if messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+            <strong {% if message.tags %} class="{{ message.tags }}" {% endif %} class="message">{{ message
+              }}</strong> {% endfor %}
           </div>
-            <!-- End Comments -->
-
-          <div class="col-md-3">
-            <!-- ======= Sidebar ======= -->
-            <div class="aside-block">
-
-              <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-popular-tab" data-bs-toggle="pill" data-bs-target="#pills-popular" type="button" role="tab" aria-controls="pills-popular" aria-selected="true">Recent Posts</button>
-                </li>
-                <!-- <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false">Trending</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-latest-tab" data-bs-toggle="pill" data-bs-target="#pills-latest" type="button" role="tab" aria-controls="pills-latest" aria-selected="false">Latest</button>
-                </li> -->
-              </ul>
-
-              <div class="tab-content" id="pills-tabContent">
-
-                <!-- Popular -->
-                {% for post in posts %}
-            <div class="post-entry-1 lg">
-              <a href="{% url 'post_details' post.slug %}">
-              <img src="{{ post.image.url }}" alt="" class="img-fluid">
-              <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span class="mx-1">&bullet;</span> <span>{{post.created_at|timesince}}</span></div>
-              <h4>{{post.title}}</h4>
-              <p class="mb-4 d-block">{{post.description|truncatechars:100}}</p>
-
-              <div class="d-flex align-items-center author">
-                <div class="photo"><img src="{% static 'img/person-1.jpg' %}" alt="" class="img-fluid"></div>
-                <div class="name">
-                  <h3 class="m-0 p-0">Cameron Williamson</h3> 
-                </div>
-              </div>
-              </a>
+          {% endif %}
+          {% csrf_token %}
+          <!-- {{form.as_p}} -->
+          <div class="mb-3">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" name="name">
             </div>
-            {% endfor %}
-
-                <!-- Trending -->
-                <!-- <div class="tab-pane fade" id="pills-trending" role="tabpanel" aria-labelledby="pills-trending-tab">
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">Life Insurance And Pregnancy: A Working Mom’s Guide</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Business</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-
-                  <div class="post-entry-1 border-bottom">
-                    <div class="post-meta"><span class="date">Lifestyle</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <h2 class="mb-2"><a href="#">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                    <span class="author mb-3 d-block">Jenny Wilson</span>
-                  </div>
-                </div>  -->
-                <!-- End Trending -->
-
-                
-
-              </div>
-            </div>
-
-            <div class="aside-block">
-              <h3 class="aside-title">Video</h3>
-              <div class="video-post">
-                <a href="https://www.youtube.com/watch?v=AiFfDjmd0jU" class="glightbox link-video">
-                  <span class="bi-play-fill"></span>
-                  <img src="{% static 'img/post-landscape-5.jpg' %}" alt="" class="img-fluid">
-                </a>
-              </div>
-            </div><!-- End Video -->
-
-            <div class="aside-block">
-              <h3 class="aside-title">Categories</h3>
-              <ul class="aside-links list-unstyled">
-                {% if cats %}
-                {% for c in categories %}
-                    <li><a href="{% url 'homepage' %}">{{ c.name }}</a></li>
-                {% endfor %}
-
-                {% else %}
-                    <li> <strong >There are no category present.</strong></li>
-                {% endif %}
-              </ul>
-            </div><!-- End Categories -->
-                      <!-- <div class="col-sm-6">
-                          <ul class="list-unstyled mb-0">
-                              <li><a href="#!">JavaScript</a></li>
-                              <li><a href="#!">CSS</a></li>
-                              <li><a href="#!">Tutorials</a></li>
-                          </ul>
-                      </div> -->
-                  </div>
-              </div>
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              name="email">
           </div>
 
+          <div class="mb-3">
+            <label for="name" class="form-label">Body</label>
+            <textarea name="body" class="form-control"></textarea>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary"> Post comment</button>
+          </div>
+        </form>
+        <div class="container" style="margin-top:20px; padding: 10px 10px;">
+          <div class="row">
+            {% for comment in post.comment.all %}
+            <!-- post.comment is coming from the foreign key. name = comment and the model item is post.  -->
+            <div class="card" style="margin-top:20px; padding: 10px 10px;">
+              <div class="card-header">
+                <strong>{{comment.name}}</strong>
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>{{comment.body}}</p>
+                  <footer class="blockquote-footer">{{comment.created_at}} </footer>
+                  <!-- <cite title="Source Title">Source Title</cite> -->
+                </blockquote>
+              </div>
+            </div>
+            {%endfor%}
           </div>
         </div>
       </div>
-    </section>
-  </main><!-- End #main -->
-  {% endblock %}
+    </div>
+    <br>
+  </div>
+  <!-- End Comments Form -->
+</div>
+<!-- End Comments -->
+
+<div class="col-lg-2">
+  <!-- ======= Sidebar ======= -->
+  <div class="aside-block">
+
+    <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-popular-tab" data-bs-toggle="pill" data-bs-target="#pills-popular"
+          type="button" role="tab" aria-controls="pills-popular" aria-selected="true">Recent Posts</button>
+      </li>
+      <!-- <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false">Trending</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-latest-tab" data-bs-toggle="pill" data-bs-target="#pills-latest" type="button" role="tab" aria-controls="pills-latest" aria-selected="false">Latest</button>
+      </li> -->
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+
+      <!-- Popular -->
+      {% for post in posts %}
+      <div class="post-entry-1 lg">
+        <a href="{% url 'post_details' post.slug %}">
+          <img src="{{ post.image.url }}" alt="" class="img-fluid">
+          <div class="post-meta"><span class="date">{{post.categories.slug}}</span> <span
+              class="mx-1">&bullet;</span> <span>{{post.created_at|timesince}}</span></div>
+          <h4>{{post.title}}</h4>
+          <p class="mb-4 d-block">{{post.description|truncatechars:100}}</p>
+
+          <div class="d-flex align-items-center author">
+            <div class="photo"><img src="{% static 'img/person-1.jpg' %}" alt="" class="img-fluid"></div>
+            <div class="name">
+              <h3 class="m-0 p-0">Cameron Williamson</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <div class="aside-block">
+    <h3 class="aside-title">Video</h3>
+    <div class="video-post">
+      <a href="https://www.youtube.com/watch?v=AiFfDjmd0jU" class="glightbox link-video">
+        <span class="bi-play-fill"></span>
+        <img src="{% static 'img/post-landscape-5.jpg' %}" alt="" class="img-fluid">
+      </a>
+    </div>
+  </div>
+  <!-- End Video -->
+
+</div>
+{% endblock %}

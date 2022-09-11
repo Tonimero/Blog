@@ -21,10 +21,10 @@ from django.utils.text import slugify
 
 def index(request):
     posts = Post.objects.all()
-    categorys = CategoryModel.objects.all()
+    # categorys = CategoryModel.objects.all()
     context = {
         'posts':posts,
-        'categorys':categorys,
+        # 'categorys':categorys,
     }
     return render(request, 'folders/index.html', context)
 
@@ -32,13 +32,13 @@ def index(request):
 def postDetailPage(request, slug):
     post = get_object_or_404(Post, slug=slug)
     posts = Post.objects.exclude(slug=slug)[:3]
-    categories = CategoryModel.objects.all()
+    # categories = CategoryModel.objects.all()
     form = CommentForm 
     context = {
         'post':post,
         'posts': posts,
         'form': form,
-        'categories':categories,
+        # 'categories':categories,
     }
     
     #form validation
@@ -59,12 +59,12 @@ def postDetailPage(request, slug):
 def categoryListPages(request, slug):
     category = get_object_or_404(CategoryModel, slug=slug)
     posts = Post.objects.filter(categories=category)
-    categorys = CategoryModel.objects.all()
+    # categorys = CategoryModel.objects.all()
     
     context = {
         'posts':posts, 
         'category':category,
-        'categorys':categorys,
+        # 'categorys':categorys,
     }
     
     return render(request, 'folders/category.html', context)   

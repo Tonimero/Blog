@@ -1,7 +1,6 @@
-{% load blog_extras %}
-{% if cats %}
-    {% for c in cats %}
-        <li><a href="{% url 'category_detail' c.slug %}">{{ c.name }}</a></li>
+{% if latest_categories %}
+    {% for c in latest_categories %}
+        <li><a href="{{c.get_absolute_url}}">{{ c.title }}</a></li>
     {% endfor %}
 
 {% else %}
